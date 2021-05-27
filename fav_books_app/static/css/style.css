@@ -1,0 +1,31 @@
+#main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 970px;
+    height: 500px;
+    outline: 1px blue dotted;
+}
+
+#header {
+    display: block;
+    outline: 1px red dotted;
+    background-color: lightseagreen;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.container {
+    width: 50%;
+    outline: 1px red dotted;
+}
+
+#registration {
+    top:25%;
+    background: lightseagreen;
+}
+
+#login {
+    top:25%;
+    background: lightseagreen;
+}

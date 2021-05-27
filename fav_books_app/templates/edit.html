@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <div id="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Welcome, {{current_user.first_name}}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <a href="/books">Home</a>
+            <a href="/logout/">Logout</a>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <h3>{{book.title}}</h3>
+        <p>Added by: {{book.uploaded_by.first_name}} {{book.uploaded_by.last_name}}</p>
+        <p>Added on: {{book.created_at}}</p>
+        <p>Last Updated on: {{book.updated_at}}</p>
+        {% if book.uploaded_by.id != request.session.user_id %}
+        <p>Description: {{book.description}}</p>
+        <a href="">Favorite Book</a>
+        {% else %}
+        <form action="/books/{{book.id}}/update" method="post">
+            {% csrf_token %}
+            <label for="description">Description</label>
+            <input name="description" class="form-control w-50" placeholder="{{book.description}}">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="/books/{{book.id}}/delete" role="button" class="btn btn-danger">Delete</a>
+        </form>
+        {% endif %}
+    </div>
+    <div class="container">
+        <h2>User's who like this book</h2>
+        <ul>
+            {% for user in book.users_who_like.all %} <!--#book comes from context, users_who_like comes from models-->
+            <li>{{ user.first_name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
